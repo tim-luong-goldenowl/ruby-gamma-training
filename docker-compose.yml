@@ -41,6 +41,3 @@ services:
   redis:
     image: redis:latest
     command: redis-server
-volumes:
-  merlin-data:
-    external: true
