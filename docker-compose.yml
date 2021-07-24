@@ -7,6 +7,8 @@ services:
       - 'redis'
     env_file:
       - ./.env
+    environment:
+      - RDS_DB_NAME=${RDS_DB_NAME}
   web:
     build: .
     ports:
