@@ -1,18 +1,25 @@
-version: '3.9'
+version: "3.9"
 services:
   sidekiq:
     build: .
     command: bundle exec sidekiq
     depends_on:
       - 'redis'
-    env_file:
-      - ./.env
     environment:
+      - REDIS_URL_SIDEKIQ=${REDIS_URL_SIDEKIQ}
       - RDS_DB_NAME=${RDS_DB_NAME}
+      - RDS_USERNAME=${RDS_USERNAME}
+      - RDS_PASSWORD=${RDS_PASSWORD}
+      - RDS_HOSTNAME=${RDS_HOSTNAME}
+      - RAILS_MAX_THREADS=${RAILS_MAX_THREADS}
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - RAILS_ENV=${RAILS_ENV}
+      - RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES}
+      - RAILS_LOG_TO_STDOUT=${RAILS_LOG_TO_STDOUT}
   web:
     build: .
     ports:
-      - '80:3000'
+      - "80:3000"
     command:
       - /bin/bash
       - -c
@@ -24,8 +31,17 @@ services:
         RAILS_ENV=$RAILS_ENV bundle exec rails s -b 0.0.0.0 -p 3000
     depends_on:
       - 'redis'
-    env_file:
-      - ./.env
+    environment:
+      - REDIS_URL_SIDEKIQ=${REDIS_URL_SIDEKIQ}
+      - RDS_DB_NAME=${RDS_DB_NAME}
+      - RDS_USERNAME=${RDS_USERNAME}
+      - RDS_PASSWORD=${RDS_PASSWORD}
+      - RDS_HOSTNAME=${RDS_HOSTNAME}
+      - RAILS_MAX_THREADS=${RAILS_MAX_THREADS}
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - RAILS_ENV=${RAILS_ENV}
+      - RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES}
+      - RAILS_LOG_TO_STDOUT=${RAILS_LOG_TO_STDOUT}
   redis:
     image: redis:latest
     command: redis-server
