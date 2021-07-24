@@ -7,10 +7,6 @@ RUN yarn install
 COPY Gemfile Gemfile.lock /app/
 RUN bundle install
 
-ENV RAILS_ENV=production
-ENV RAILS_SERVE_STATIC_FILES=true
-ENV RAILS_LOG_TO_STDOUT=true
-
 COPY . /app
 
 EXPOSE 3000
