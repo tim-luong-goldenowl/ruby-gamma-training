@@ -28,20 +28,14 @@ class ApplicationService
 end
 
 class ServiceResponse
-  attr_accessor :payload, :errors
-
-  def initialize(payload: nil, errors: [])
-    @payload = payload
-    @errors = errors
-  end
-
-  def fail?
-    errors.any?
+  def initialize(user)
+    @user = user
   end
 
   def success?
-    !fail?
+    if @user.save!
+      Mailer.send_confirmation_email(@user)
+      render json: {success: true}
+    end
   end
 end
-
-<name>-object-service-exercse
