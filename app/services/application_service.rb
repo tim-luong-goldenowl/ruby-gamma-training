@@ -28,20 +28,13 @@ class ApplicationService
 end
 
 class ServiceResponse
-  attr_accessor :payload, :errors
+  attr_accessor :record
 
-  def initialize(payload: nil, errors: [])
-    @payload = payload
-    @errors = errors
-  end
-
-  def fail?
-    errors.any?
+  def initialize(record)
+    @record = record
   end
 
   def success?
-    !fail?
+    @record.save
   end
 end
-
-<name>-object-service-exercse
